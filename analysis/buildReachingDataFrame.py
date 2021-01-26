@@ -2,10 +2,7 @@
 import os
 from os import listdir
 from os.path import isfile, join
-import csv
 import pandas as pd
-import seaborn as sns
-from pathlib import Path
 
 data_dir = "C:/Users/angie/Box/StereoMotorStudy/StereoMotor MATLAB/analysis/csv"
 os.chdir(data_dir)
@@ -19,7 +16,6 @@ def get_csv_file():
     for sub in subject_list:
         subject_directory = data_dir + '/' + sub
         os.chdir(subject_directory)
-
 
         sub_file_list = [f for f in listdir(subject_directory) if isfile(join(subject_directory, f))]
 
