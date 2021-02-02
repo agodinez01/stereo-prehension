@@ -15,7 +15,7 @@
     <favorites_list name="analysis" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.38114753">
+    <splitter split-orientation="horizontal" split-proportion="0.36065573">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
@@ -30,7 +30,7 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_5.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="38">
+                <state relative-caret-position="101">
                   <caret line="72" column="53" selection-start-line="72" selection-start-column="53" selection-end-line="72" selection-end-column="53" />
                   <folding>
                     <element signature="e#0#18#0" expanded="true" />
@@ -99,8 +99,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/buildReachingDataFrame.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="561">
-                  <caret line="33" selection-start-line="33" selection-end-line="33" />
+                <state relative-caret-position="186">
+                  <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
                   <folding>
                     <element signature="e#1#10#0" expanded="true" />
                   </folding>
@@ -138,16 +138,16 @@
         <option value="$PROJECT_DIR$/../../StereoTraining/analysis/d_prime_sa_level_PPR_fig.py" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/buildReachingDataFrame.py" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_5.py" />
-        <option value="$PROJECT_DIR$/buildReachingDataFrame.py" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_7.py" />
+        <option value="$PROJECT_DIR$/buildReachingDataFrame.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-12" />
-    <option name="y" value="-12" />
-    <option name="width" value="1944" />
-    <option name="height" value="1104" />
+    <option name="x" value="-1519" />
+    <option name="y" value="305" />
+    <option name="width" value="1293" />
+    <option name="height" value="733" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -185,7 +185,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.scratch_7 (1)">
+  <component name="RunManager" selected="Python.buildReachingDataFrame">
     <configuration name="buildReachingDataFrame" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="untitled" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -293,8 +293,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.scratch_7 (1)" />
         <item itemvalue="Python.buildReachingDataFrame" />
+        <item itemvalue="Python.scratch_7 (1)" />
         <item itemvalue="Python.scratch_7" />
         <item itemvalue="Python.d_prime_PPR_anova" />
         <item itemvalue="Python.d_pime_Halloween_PPR" />
@@ -315,16 +315,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="735" extended-state="6" />
+    <frame x="-1688" y="31" width="1696" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49928057" visible="true" weight="0.02866242" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49928057" visible="true" weight="0.02173913" />
       <window_info id="Structure" order="1" sideWeight="0.5007194" side_tool="true" weight="0.09842995" />
       <window_info id="Favorites" order="2" sideWeight="0.5007194" side_tool="true" weight="0.09842995" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.27753305" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49939615" visible="true" weight="0.8858132" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.27753305" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49939615" weight="0.6244493" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -536,6 +536,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_5.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="101">
+          <caret line="72" column="53" selection-start-line="72" selection-start-column="53" selection-end-line="72" selection-end-column="53" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../../StereoTraining/analysis/buildHalloweenDataFrame.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -547,20 +557,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/buildReachingDataFrame.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="33" selection-start-line="33" selection-end-line="33" />
+        <state relative-caret-position="186">
+          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
           <folding>
             <element signature="e#1#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_5.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="72" column="53" selection-start-line="72" selection-start-column="53" selection-end-line="72" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
