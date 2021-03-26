@@ -25,14 +25,8 @@ def makeGraspingTrace():
 
                 sub_data = data.loc[(data.subject == sub) & (data.condition == cond) & (data.trial == t)]
 
-#                if len(sub_data[(sub_data.condition == cond) & (sub_data.trial == t)]) == 0:
-
                 if len(sub_data) == 0:
-                    distance = 'nan'
-                    time = 'nan'
-                    subjectL = [sub] * len(distance)
-                    conditionL = [cond] * len(distance)
-                    trialL = [t] * len(distance)
+                    continue
 
                 else:
 
@@ -46,8 +40,6 @@ def makeGraspingTrace():
                     subjectL = [sub] * len(distance)
                     conditionL = [cond] * len(distance)
                     trialL = [t] * len(distance)
-
-                    print('Name: ', sub, 'Condition: ', cond, 'Trial: ', t, 'Distance Len: ',  len(distance), 'Name Len: ', len(subjectL), 'Time Len: ', len(time))
 
                 distance_3d.append(distance)
                 subject_vals.append(subjectL)
@@ -68,6 +60,11 @@ time_flat_list = [item for sublist in time_list for item in sublist]
 frames = {'subject': sub_flat_list, 'condition': condition_flat_list, 'trial': trial_flat_list, 'position': distance_flat_list, 'time_stamp': time_flat_list}
 
 dataFrame = pd.DataFrame(frames)
+
+dataFrame['position'] = dataFrame['position'].astype(str).astype(float)
+dataFrame['time_stamp'] = dataFrame['time_stamp'].astype(str).astype(float)
+
+print(dataFrame.dtypes)
 
 dataFrame.to_csv(r'C:/Users/angie/Git Root/stereo-prehension/data/graspingData.csv', index=False)
 
