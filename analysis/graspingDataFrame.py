@@ -35,7 +35,7 @@ def makeGraspingTrace():
                         sub_data.grasping_finger_y - sub_data.thumb_y)**2 + (
                         sub_data.grasping_finger_x - sub_data.thumb_z)**2)
 
-                    time = sub_data.time_stamp
+                    time = sub_data.time_stamp - sub_data.time_stamp.iloc[0]
 
                     subjectL = [sub] * len(distance)
                     conditionL = [cond] * len(distance)
