@@ -6,7 +6,7 @@ from scipy.signal import savgol_filter
 from scipy import signal
 
 myPath = r'C:/Users/angie/Git Root/stereo-prehension/data/'
-fig_dir = r'C:/Users/angie/Box/Projects/2.Stereo-motor relationship/figs/velocity_traces/'
+fig_dir = r'C:/Users/angie/Box/Projects/2.Stereo-motor relationship/figs/velocity_traces_truncated/'
 
 os.chdir(myPath)
 
@@ -19,7 +19,7 @@ sensors = data.sensor.unique()
 directions = data.direction.unique()
 
 # Plot variables
-colors = ['#cfcfcf', '#FF0000', '#000000'] #light grey, red, black
+colors = ['#cfcfcf', '#FF0000', '#000000', '#4b4b4b'] #light grey, red, black, dark grey
 
 # Function for sensor now and sensor previous
 def getNowandPrevious(sdata):
@@ -39,10 +39,12 @@ def butter_lowpass_filter(input_data, cuttoff, fs, order):
 
     return y
 
-def makeFig(sub, cond, t, velocity, time, smoothed_velocity, velocity_diff):
+def makeFig(sub, cond, t, time, velocity, filled, smoothed_velocity):
     # Cut two points from time and one from velocity due to the circular shift and derivation.
-    plt.plot(time[:-2], velocity_diff, color=colors[0])
+
+    plt.plot(time[:-2], filled, color=colors[0])
     plt.plot(time[:-2], velocity, color=colors[1])
+    #plt.plot(time[:-2], velocity, color=colors[1])
     plt.plot(time[:-2], smoothed_velocity, color=colors[2])
 
     plt.title(sub + ' ' + cond + ' ' + str(t))
@@ -52,10 +54,10 @@ def makeFig(sub, cond, t, velocity, time, smoothed_velocity, velocity_diff):
     plt.ylim(-0.075, 0.075)
     plt.legend(['Raw data', 'Butterworth', 'Sav-Gol'], loc='upper left')
 
-    fig_name = 'velocity_raw_' + sub + '_' + cond + '_' + str(t) + '.png'
+    fig_name = 'smoothed_velocity_' + sub + '_' + cond + '_' + str(t) + '.png'
 
-    #plt.show()
-    plt.savefig(fname=fig_dir + fig_name, bbox_inches='tight', format='png', dpi=300)
+    plt.show()
+    #plt.savefig(fname=fig_dir + fig_name, bbox_inches='tight', format='png', dpi=300)
     plt.clf()
 
 for sub in subjects:
@@ -81,20 +83,26 @@ for sub in subjects:
                                            + (now_wrist_y_position - previous_wrist_y_position)**2
                                            + (now_wrist_z_position - previous_wrist_z_position)**2)
 
-                # Take the derivative of the 3d position
                 velocity_diff = np.diff(wrist3d_position[1:])
+
+                velocity_diff[velocity_diff < -0.04] = np.nan
+                velocity_diff[velocity_diff > 0.04] = np.nan
+
+                #Fill
+                filled = pd.Series(velocity_diff).fillna(limit=10, method='ffill')
 
                 # Add butterworth low-pass filter
                 T = 5.0
                 fs = 30.0
-                cutoff = 3
+                cutoff = 2
                 nyq = 0.5 * fs
                 order = 2
                 n = int(T * fs)
 
-                velocity = butter_lowpass_filter(velocity_diff, cutoff, fs, order)
-                smoothed_velocity = savgol_filter(velocity, 51, 2)
+                velocity = butter_lowpass_filter(filled, cutoff, fs, order)
+                smoothed_velocity = savgol_filter(velocity, 61, 2)
 
-                makeFig(sub, cond, t, velocity, now_time, smoothed_velocity, velocity_diff)
+                makeFig(sub, cond, t, now_time, velocity, filled, smoothed_velocity)
+
 
 
