@@ -18,6 +18,14 @@ trials = data.trial.unique()
 sensors = data.sensor.unique()
 directions = data.direction.unique()
 
+# Add butterworth low-pass filter
+T = .13
+fs = 30.0
+cutoff = 2
+nyq = 0.5 * fs
+order = 2
+n = int(T * fs)
+
 # Plot variables
 colors = ['#cfcfcf', '#FF0000', '#000000', '#4b4b4b'] #light grey, red, black, dark grey
 
@@ -90,14 +98,6 @@ for sub in subjects:
 
                 #Fill
                 filled = pd.Series(velocity_diff).fillna(limit=10, method='ffill')
-
-                # Add butterworth low-pass filter
-                T = 5.0
-                fs = 30.0
-                cutoff = 2
-                nyq = 0.5 * fs
-                order = 2
-                n = int(T * fs)
 
                 velocity = butter_lowpass_filter(filled, cutoff, fs, order)
                 smoothed_velocity = savgol_filter(velocity, 61, 2)
