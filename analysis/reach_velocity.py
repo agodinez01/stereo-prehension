@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from scipy.signal import savgol_filter
 from scipy import signal
 
-myPath = r'C:/Users/angie/Git Root/stereo-prehension/data/'
+myPath = r'C:/Users/angie/Box/Projects/2.Stereo-motor relationship/Data/'
 fig_dir = r'C:/Users/angie/Box/Projects/2.Stereo-motor relationship/figs/velocity_traces_truncated/'
 
 os.chdir(myPath)
@@ -84,7 +84,7 @@ for sub in subjects:
                 now_wrist_y_position, previous_wrist_y_position = getNowandPrevious(subData.position[subData.direction == 'y'])
                 now_wrist_z_position, previous_wrist_z_position = getNowandPrevious(subData.position[subData.direction == 'z'])
 
-                now_time, previous_time = getNowandPrevious(subData.time_stamp[subData.direction == 'x'])
+                now_time, previous_time = getNowandPrevious(subData.time[subData.direction == 'x'])
 
                 # Calculate the 3d position of the sensor on the wrist
                 wrist3d_position = np.sqrt((now_wrist_x_position - previous_wrist_x_position)**2
