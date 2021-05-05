@@ -64,8 +64,12 @@ def makeWristVelocityDataFrame():
                     subL = [sub] * len(velocity_diff)
                     condL = [cond] * len(velocity_diff)
                     trialL = [t] * len(velocity_diff)
-                    velL = velocity_diff
+                    #velL = velocity_diff
                     timeL = now_time[:-2]
+
+                    v_diff = velocity_diff/(np.diff(now_time[:-1]))
+
+                    velL = v_diff
 
                 subVals.append(subL)
                 condVals.append(condL)
