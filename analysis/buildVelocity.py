@@ -1,10 +1,6 @@
 import pandas as pd
 import os
-import seaborn as sns
 import numpy as np
-import matplotlib.pyplot as plt
-from scipy.signal import savgol_filter
-from scipy import signal
 
 # Takes in VelocityData.csv and creates dataframe to calculate standard deviation
 
@@ -31,16 +27,19 @@ def getNowandPrevious(sdata):
 
 def makeWristVelocityDataFrame():
     subVals = []
+    typeVals = []
     condVals = []
     trialVals = []
     velocityVals = []
     timeVals = []
+    tDiffVals = []
 
     for sub in subjects:
         for cond in conditions:
             for t in trials:
 
                 subData = data.loc[(data.subject == sub) & (data.condition == cond) & (data.trial == t) & (data.sensor == 'wrist')]
+                subData2 = data.loc[(data.subject == sub) & (data.condition == cond) & (data.trial == t)]
 
                 if len(subData) == 0:
                     continue
@@ -53,53 +52,76 @@ def makeWristVelocityDataFrame():
                     now_wrist_z_position, previous_wrist_z_position = getNowandPrevious(subData.position[subData.direction == 'z'])
 
                     now_time, previous_time = getNowandPrevious(subData.time[subData.direction == 'x'])
+                    real_now_time = now_time - now_time[0]
+                    real_previous_time = previous_time - now_time[0]
 
                     # Calculate the 3d position of the sensor on the wrist
-                    wrist3d_position = np.sqrt((now_wrist_x_position - previous_wrist_x_position)**2
-                                               + (now_wrist_y_position - previous_wrist_y_position)**2
-                                               + (now_wrist_z_position - previous_wrist_z_position)**2)
+                    wrist3d_position = np.sqrt((np.abs(previous_wrist_x_position) - np.abs(now_wrist_x_position))**2
+                                               + (np.abs(previous_wrist_y_position) - np.abs(now_wrist_y_position))**2
+                                               + (np.abs(previous_wrist_z_position) - np.abs(now_wrist_z_position))**2)
 
-                    velocity_diff = np.diff(wrist3d_position[1:])
+                    poltimedifference = real_previous_time - real_now_time
 
-                    subL = [sub] * len(velocity_diff)
-                    condL = [cond] * len(velocity_diff)
-                    trialL = [t] * len(velocity_diff)
-                    #velL = velocity_diff
-                    timeL = now_time[:-2]
+                    a = wrist3d_position/ poltimedifference
 
-                    v_diff = velocity_diff/(np.diff(now_time[:-1]))
+                    # Terence way
+                    # For Terence analysis, calculate previous and current position for finger and thumb sensor.
+                    now_finger_x_position, previous_finger_x_position = getNowandPrevious(
+                        subData2.position[(subData2.sensor == 'finger') & (subData2.direction == 'x')])
+                    now_finger_y_position, previous_finger_y_position = getNowandPrevious(
+                        subData2.position[(subData2.sensor == 'finger') & (subData2.direction == 'y')])
+                    now_finger_z_position, previous_finger_z_position = getNowandPrevious(
+                        subData2.position[(subData2.sensor == 'finger') & (subData2.direction == 'z')])
 
-                    velL = v_diff
+                    now_thumb_x_position, previous_thumb_x_position = getNowandPrevious(
+                        subData2.position[(subData2.sensor == 'thumb') & (subData2.direction == 'x')])
+                    now_thumb_y_position, previous_thumb_y_position = getNowandPrevious(
+                        subData2.position[(subData2.sensor == 'thumb') & (subData2.direction == 'y')])
+                    now_thumb_z_position, previous_thumb_z_position = getNowandPrevious(
+                        subData2.position[(subData2.sensor == 'thumb') & (subData2.direction == 'z')])
+
+                    polVelocityReal = ((np.sqrt((np.abs(previous_finger_x_position) - np.abs(now_finger_x_position)) ** 2
+                                              + (np.abs(previous_finger_y_position) - np.abs(now_finger_y_position)) ** 2
+                                              + (np.abs(previous_finger_z_position) - np.abs(now_finger_z_position)) ** 2)) / poltimedifference) + \
+                                      ((np.sqrt((np.abs(previous_thumb_x_position) - np.abs(now_thumb_x_position)) ** 2
+                                              + (np.abs(previous_thumb_y_position) - np.abs(now_thumb_y_position)) ** 2
+                                              + (np.abs(previous_thumb_z_position) - np.abs(now_thumb_z_position)) ** 2)) / poltimedifference) / 2
+
+                    if sub in ('ag', 'el', 'jp', 'kp', 'll', 'sm', 'vd', 'wt'):
+                        type = 'stereo-normal'
+                    elif sub in ('by', 'co', 'gd', 'jr', 'lb', 'mb', 'gp', 'mr', 'ha', 'id', 'jc', 'mg', 'tp'):
+                        type = 'stereo-anomalous'
+
+                    subL = [sub] * len(a)
+                    typeL = [type] * len(a)
+                    condL = [cond] * len(a)
+                    trialL = [t] * len(a)
+                    timeL = real_now_time
 
                 subVals.append(subL)
+                typeVals.append(typeL)
                 condVals.append(condL)
                 trialVals.append(trialL)
-                velocityVals.append(velL)
                 timeVals.append(timeL)
+                velocityVals.append(a)
+                tDiffVals.append(polVelocityReal)
 
-    return subVals, condVals, trialVals, velocityVals, timeVals
+    return subVals, typeVals, condVals, trialVals, velocityVals, timeVals, tDiffVals
 
-sub_list, cond_list, trial_list, velocity_list, time_list = makeWristVelocityDataFrame()
+sub_list, type_list, cond_list, trial_list, velocity_list, time_list, tDiff_list = makeWristVelocityDataFrame()
 
 sub_flat_list = [item for sublist in sub_list for item in sublist]
+type_flat_list = [item for sublist in type_list for item in sublist]
 cond_flat_list = [item for sublist in cond_list for item in sublist]
 trial_flat_list = [item for sublist in trial_list for item in sublist]
 velocity_flat_list = [item for sublist in velocity_list for item in sublist]
 time_flat_list = [item for sublist in time_list for item in sublist]
+tDiff_flat_list = [item for sublist in tDiff_list for item in sublist]
 
-frames = {'subject': sub_flat_list, 'condition': cond_flat_list, 'trial': trial_flat_list, 'velocity': velocity_flat_list, 'time': time_flat_list}
+frames = {'subject': sub_flat_list, 'type': type_flat_list, 'condition': cond_flat_list, 'trial': trial_flat_list, 'time': time_flat_list, 'velocity': velocity_flat_list, 'ter_velocity': tDiff_flat_list}
 
 dataFrame = pd.DataFrame(frames)
 
 dataFrame['time'] = dataFrame['time'].astype(str).astype(float)
 
-dataFrame.to_csv(r'C:/Users/angie/Box/Projects/2.Stereo-motor relationship/data/velocityData4Distribution.csv', index=False)
-
-print(dataFrame['velocity'].mean())
-print(dataFrame['velocity'].std())
-
-sns.distplot(dataFrame.velocity, kde=True, rug=True)
-plt.show()
-
-
-data
+dataFrame.to_csv(r'C:/Users/angie/Box/Projects/2.Stereo-motor relationship/data/vel_data_with_Ter_analysis2.csv', index=False)
