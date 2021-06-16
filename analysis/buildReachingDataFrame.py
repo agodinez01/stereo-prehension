@@ -4,7 +4,7 @@ from os import listdir
 from os.path import isfile, join
 import pandas as pd
 
-data_dir = "C:/Users/angie/Box/StereoMotorStudy/StereoMotor MATLAB/analysis/csv"
+data_dir = "C:/Users/angie/Box/StereoMotorStudy/StereoMotor MATLAB/analysis/csv_new"
 os.chdir(data_dir)
 
 # Go through every folder in the path and create a list
