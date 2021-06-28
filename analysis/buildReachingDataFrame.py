@@ -1,8 +1,10 @@
-
 import os
 from os import listdir
 from os.path import isfile, join
 import pandas as pd
+
+# Goes through every folder and creates a list of items in each folder. In this case, the items refer to individual trials.
+# It then creates a pandas dataframe joining the data from all subjects and saves it to a csv file.
 
 data_dir = "C:/Users/angie/Box/StereoMotorStudy/StereoMotor MATLAB/analysis/csv_new"
 os.chdir(data_dir)

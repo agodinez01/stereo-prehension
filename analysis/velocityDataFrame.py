@@ -2,6 +2,10 @@ import pandas as pd
 import os
 import numpy as np
 
+# Takes in reachingData.csv, which was created by builReachingDataFrame.py
+# Converts reachingData.csv to long format and adds sensor and direction columns.
+# Makes velocityData.csv
+
 myPath = r'C:/Users/angie/Git Root/stereo-prehension/data/'
 os.chdir(myPath)
 
@@ -10,6 +14,7 @@ data = pd.read_csv('reachingData.csv')
 subjects = data.subject.unique()
 conditions = data.condition.unique()
 trials = data.trial.unique()
+
 
 def makeVelocityDataFrame():
     subjectVals = []

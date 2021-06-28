@@ -2,7 +2,9 @@ import pandas as pd
 import os
 import numpy as np
 
-# Takes in VelocityData.csv and creates dataframe to calculate standard deviation
+# Takes in VelocityData.csv. Calculates absolute velocity using the wrist sensor (1) and the sum difference of the thumb and finger (2),
+# which is the way Verghese et al (2016) did it.
+# Saves Pandas dataframe as vel_data_with_Ter_analysis2.csv
 
 myPath = r'C:/Users/angie/Box/Projects/2.Stereo-motor relationship/Data/'
 

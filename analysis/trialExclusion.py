@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import savgol_filter
 from scipy import signal
+from general_functions import makeFlatList
 
 # 5/08/21 Created funtion to produce list of trials that should be excluded.
 
@@ -25,28 +26,46 @@ trials = vel_data.trial.unique()
 
 def spitExludedTrials():
     subVals = []
-    condList = []
-    trialList = []
-    velExcludeList = []
-    graspExcludeList = []
+    condVals = []
+    trialVals = []
+    trial_exclusion = []
+    velVals = []
+    graspVals = []
 
     for sub in subjects:
         for cond in conditions:
             for t in trials:
 
-                velStartAvg = vel_data.vel_bw[0:4].mean()
+                vel_start_avg = vel_data.vel_bw[(vel_data.subject == sub) & (vel_data.condition == cond) & (vel_data.trial == t)][0:4].mean()
+                grasp_start_avg = grasp_data.position[(grasp_data.subject == sub) & (grasp_data.condition == cond) & (grasp_data.trial == t)][0:4].mean()
 
-                if velStartAvg > 0.5:
-                    noGoodVelTrial = 'Exclude'
+                if (vel_start_avg > 2) or (grasp_start_avg > 25):
+                    trial_EI = 'Exclude'
+
                 else:
-                    noGoodVelTrial = 'Keep'
+                    trial_EI = 'Include'
 
-                subL = [sub] * len()
-                condL = [cond] * len()
-                trialL = [t] * len()
+                subL = [sub]
+                condL = [cond]
+                trialL = [t]
 
+                subVals.append(subL)
+                condVals.append(condL)
+                trialVals.append(trialL)
+                trial_exclusion.append(trial_EI)
+                velVals.append(vel_start_avg)
+                graspVals.append(grasp_start_avg)
 
+    return subVals, condVals, trialVals, trial_exclusion, velVals, graspVals
 
-            subVals.append()
+sub_list, cond_list, trial_list, trial_exclusion_list, vel_list, grasp_list = spitExludedTrials()
 
+list_of_lists = [sub_list, cond_list, trial_list, trial_exclusion_list, vel_list, grasp_list]
+flatL = makeFlatList(list_of_lists)
 
+frame = {'subject': flatL[0], 'condition': flatL[1], 'trial': flatL[2], 'exclude_include': flatL[3], 'vel_start_avg': flatL[4], 'grasp_start_avg': flatL[5]}
+
+dFrame = pd.DataFrame(frame)
+dFrame.to_csv(r'C:/Users/angie/Box/Project/2.Stereo-motor relationship/data/trial_inclusion_exclusion_list.csv', index=False)
+
+vel_data
