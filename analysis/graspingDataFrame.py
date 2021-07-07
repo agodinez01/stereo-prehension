@@ -40,6 +40,7 @@ def makeGraspingTrace():
     condition_vals = []
     trial_vals = []
     distance_3d = []
+    grip_change = []
     time_vals = []
 
     for sub in subjects:
@@ -61,33 +62,38 @@ def makeGraspingTrace():
                             sub_data.grasping_finger_y - sub_data.thumb_y) ** 2 + (
                                                sub_data.grasping_finger_z - sub_data.thumb_z) ** 2) - closed_grip_distance
 
+                    change_in_grip = np.diff(distance)
+
                     time = sub_data.time_stamp - sub_data.time_stamp.iloc[0]
 
                     subjectL = [sub] * len(distance)
                     conditionL = [cond] * len(distance)
                     trialL = [t] * len(distance)
 
-                distance_3d.append(distance)
-                subject_vals.append(subjectL)
-                condition_vals.append(conditionL)
-                trial_vals.append(trialL)
-                time_vals.append(time)
+                distance_3d.append(distance[0:-1])
+                subject_vals.append(subjectL[0:-1])
+                condition_vals.append(conditionL[0:-1])
+                trial_vals.append(trialL[0:-1])
+                time_vals.append(time[0:-1])
+                grip_change.append(change_in_grip)
 
-    return subject_vals, condition_vals, trial_vals, distance_3d, time_vals
+    return subject_vals, condition_vals, trial_vals, distance_3d, grip_change, time_vals
 
-subject_list, condition_list, trial_list, distance_list, time_list = makeGraspingTrace()
+subject_list, condition_list, trial_list, distance_list, grip_change_list, time_list = makeGraspingTrace()
 
 sub_flat_list = [item for sublist in subject_list for item in sublist]
 condition_flat_list = [item for sublist in condition_list for item in sublist]
 trial_flat_list = [item for sublist in trial_list for item in sublist]
 distance_flat_list = [item for sublist in distance_list for item in sublist]
+grip_change_flat_list = [item for sublist in grip_change_list for item in sublist]
 time_flat_list = [item for sublist in time_list for item in sublist]
 
-frames = {'subject': sub_flat_list, 'condition': condition_flat_list, 'trial': trial_flat_list, 'thumb_finger_distance': distance_flat_list, 'grip_time': time_flat_list}
+frames = {'subject': sub_flat_list, 'condition': condition_flat_list, 'trial': trial_flat_list, 'thumb_finger_distance': distance_flat_list, 'grip_change': grip_change_flat_list, 'grip_time': time_flat_list}
 
 dataFrame = pd.DataFrame(frames)
 
 dataFrame['thumb_finger_distance'] = dataFrame['thumb_finger_distance'].astype(str).astype(float)
+dataFrame['grip_change'] = dataFrame['grip_change'].astype(str).astype(float)
 dataFrame['grip_time'] = dataFrame['grip_time'].astype(str).astype(float)
 
 dataFrame.to_csv(r'C:/Users/angie/Box/Projects/2.Stereo-motor relationship/data/graspingData.csv', index=False)
