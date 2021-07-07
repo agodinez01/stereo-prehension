@@ -35,18 +35,18 @@ def getReachingKinematics():
                 subData = vel_data.loc[(vel_data.subject == sub) & (vel_data.condition == cond) & (vel_data.trial == t)]
                 grip_subData = g_data.loc[(g_data.subject == sub) & (g_data.condition == cond) & (g_data.trial == t)]
 
-                if len(subData) == 0:
+                if (len(subData) == 0) or (len(grip_subData) == 0):
                     continue
 
                 else:
 
                     pVelocity = subData.vel_bw.iloc[0:round(len(subData)/2)].max()
-                    max_grip_aperture = grip_subData.position.iloc[0:round(len(grip_subData)/2)].max()
+                    max_grip_aperture = grip_subData.thumb_finger_distance.iloc[0:round(len(grip_subData)/2)].max()
 
                     g = subData.group.iloc[0]
 
                     time_of_max_pv = subData.time.loc[subData.vel_bw == pVelocity].to_numpy()[0]
-                    time_of_max_ga = grip_subData.time_stamp.loc[grip_subData.position == max_grip_aperture].to_numpy()[0]
+                    time_of_max_ga = grip_subData.grip_time.loc[grip_subData.thumb_finger_distance == max_grip_aperture].to_numpy()[0]
 
                 subVals.append([sub])
                 groupVals.append([g])
