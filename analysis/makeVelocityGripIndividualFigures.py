@@ -7,7 +7,7 @@ from scipy import signal
 # Makes grip and velocity figures for each subject and trial
 
 myPath = r'C:/Users/angie/Box/Projects/2.Stereo-motor relationship/data/'
-fig_dir = r'C:/Users/angie/Box/Projects/2.Stereo-motor relationship/figs/velocity_and_grasp/'
+fig_dir = r'C:/Users/angie/Box/Projects/2.Stereo-motor relationship/figs/calibrated_velocity_grasp/'
 
 os.chdir(myPath)
 
@@ -35,16 +35,16 @@ def makeFig(sub, cond, t, vData, gData, kData):
     axs[0].set_ylabel('Velocity (cm/s)')
     axs[0].set_ylim(vel_data['vel_filled'].min() - 10, vel_data['vel_filled'].max() + 10)
 
-    axs[1].plot(gData['time_stamp'], gData['position'])
+    axs[1].plot(gData['grip_time'], gData['thumb_finger_distance'])
     axs[1].set_xlabel('Time (s)')
     axs[1].set_ylabel('Grip')
-    axs[1].set_ylim(grasp_data['position'].min() - 10, grasp_data['position'].max() + 10)
+    axs[1].set_ylim(gData['thumb_finger_distance'].min() - 5, gData['thumb_finger_distance'].max() + 5)
     axs[1].axvline(x=kData.mga_time.tolist(), color='red')
 
     fig_name = sub + '_' + cond + '_' + str(t) + '.png'
-    #plt.savefig(fname=fig_dir + fig_name, bbox_inches='tight', format='png', dpi=300)
+    plt.savefig(fname=fig_dir + fig_name, bbox_inches='tight', format='png', dpi=300)
 
-    plt.show()
+    #plt.show()
     plt.clf()
     plt.close('all')
 

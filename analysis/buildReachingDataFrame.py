@@ -46,4 +46,4 @@ data = get_csv_file()
 all_data = pd.concat(data, sort=True)
 all_data = pd.DataFrame(all_data, columns=['subject', 'condition', 'trial', 'time_stamp', 'grasping_finger_x', 'grasping_finger_y', 'grasping_finger_z', 'thumb_x', 'thumb_y', 'thumb_z', 'wrist_x', 'wrist_y', 'wrist_z'])
 
-all_data.to_csv(r'C:\Users\angie\Git Root\stereo-prehension\data\reachingData.csv', index=False)
+all_data.to_csv(r'C:\Users\angie\Box\Projects\2.Stereo-motor relationship\data\reachingData.csv', index=False)
